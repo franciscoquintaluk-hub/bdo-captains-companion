@@ -1,24 +1,22 @@
-# BDO Captain's Companion v3.0
+# BDO Captain's Companion v3.2
 
-Carrack-only companion app for Black Desert Online.
+Carrack-only companion for Francisco.
 
-Focus:
-- Epheria Caravel current ship
-- Carrack Advance progression
-- Blue Carrack gear preparation
-- Sailing and barter daily/weekly quest tracker
-- Material calculator
-- Sea monster solo/group guide
-- Sailor priorities
+## Focus
+- Current ship: Epheria Caravel
+- Goal: Epheria Carrack: Advance
+- Next goal: Blue Carrack gear
 
-## GitHub Pages
-Upload these files and folders to the repository root:
+## v3.2 Fix
+Corrected the Materials page to track the actual Carrack Advance upgrade requirements:
 
-- index.html
-- README.md
-- css/
-- js/
-- data/
-- assets/
-
-Do not upload the parent folder only. The `index.html` file must be in the root of the repo.
+- Epheria Caravel
+- +10 Epheria Caravel: Black Dragon Prow
+- +10 Epheria Caravel: Upgraded Plating
+- +10 Epheria Caravel: Mayna Cannon
+- +10 Epheria Caravel: Stratus Wind Sail
+- Moon Vein Flax Fabric x180
+- Deep Tide-Dyed Standardized Timber Square x144
+- Brilliant Rock Salt Ingot x35
+- Tear of the Ocean x42
+- Brilliant Pearl Shard x35

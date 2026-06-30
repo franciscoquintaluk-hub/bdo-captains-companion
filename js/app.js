@@ -91,8 +91,48 @@ function renderQuests(){
   $('#questSearch').addEventListener('input', draw); $('#questFilter').addEventListener('change', draw); draw();
 }
 
+function matIcon(m){
+  if(m.iconUrl) return `<img class="matIcon" src="${m.iconUrl}" alt="${m.name} icon" loading="lazy" onerror="this.replaceWith(document.createTextNode('📦'))"/>`;
+  return `<span class="matIcon fallback">${m.icon || '📦'}</span>`;
+}
+
 function renderMaterials(){
-  $('#materials').innerHTML = `<div class="materialList">${DATA.materials.map(m => { const have=state.materials[m.id]||0; return `<article class="materialCard"><div><span class="pill ${priorityClass(m.priority)}">${m.priority}</span><h3>${m.name}</h3><p>${m.note}</p><small><b>Source:</b> ${m.source}</small><small><b>Used for:</b> ${m.used}</small></div><div class="materialControl"><input type="number" min="0" data-mat="${m.id}" value="${have}"/><strong>${have}/${m.need}</strong><div class="bar"><i style="width:${pct(have,m.need)}%"></i></div></div></article>`}).join('')}</div>`;
+  const groups = ['Base','Ship Part','Main Material','Bottleneck'];
+  const totalNeed = DATA.materials.reduce((a,m)=>a + Number(m.need||0),0);
+  const totalHave = DATA.materials.reduce((a,m)=>a + Math.min(Number(state.materials[m.id]||0), Number(m.need||0)),0);
+  $('#materials').innerHTML = `
+    <div class="sourceNote">
+      <strong>Carrack Advance only.</strong> This tracker follows the Caravel → Carrack Advance upgrade table: 4 enhanced Caravel ship parts + 5 Advance materials. Enter what you own, and the remaining amount updates instantly.
+    </div>
+    <div class="materialSummary">
+      <article class="statCard"><span>Overall required</span><strong>${totalHave}/${totalNeed}</strong><div class="bar"><i style="width:${pct(totalHave,totalNeed)}%"></i></div></article>
+      <article class="statCard"><span>Ship parts</span><strong>${DATA.materials.filter(m=>m.category==='Ship Part' && (state.materials[m.id]||0)>=m.need).length}/4</strong><div class="bar"><i style="width:${pct(DATA.materials.filter(m=>m.category==='Ship Part' && (state.materials[m.id]||0)>=m.need).length,4)}%"></i></div></article>
+      <article class="statCard"><span>Bottlenecks</span><strong>${DATA.materials.filter(m=>m.category==='Bottleneck' && (state.materials[m.id]||0)>=m.need).length}/3</strong><div class="bar"><i style="width:${pct(DATA.materials.filter(m=>m.category==='Bottleneck' && (state.materials[m.id]||0)>=m.need).length,3)}%"></i></div></article>
+    </div>
+    <div class="materialTableWrap">
+      ${groups.map(group => {
+        const items = DATA.materials.filter(m => m.category === group);
+        if(!items.length) return '';
+        return `<section class="matGroup"><h3>${group}</h3><div class="materialTable">
+          ${items.map(m => {
+            const have = Number(state.materials[m.id] || 0);
+            const remaining = Math.max(0, Number(m.need) - have);
+            const done = remaining === 0;
+            return `<article class="matRow ${done ? 'done' : ''}">
+              <div class="matNameCell">
+                ${matIcon(m)}
+                <div><h4>${m.name}</h4><small>${m.source}</small></div>
+              </div>
+              <div class="matNeed"><span>Required</span><b>${m.need.toLocaleString()}</b></div>
+              <label class="matHave"><span>You have</span><input type="number" min="0" data-mat="${m.id}" value="${have}"/></label>
+              <div class="matRemain"><span>Remaining</span><b>${remaining.toLocaleString()}</b></div>
+              <div class="matProgress"><span>${pct(have,m.need)}%</span><div class="bar"><i style="width:${pct(have,m.need)}%"></i></div></div>
+              <details class="matDetails"><summary>How to get / sub mats</summary><ul>${(m.details||[m.note]).map(d=>`<li>${d}</li>`).join('')}</ul></details>
+            </article>`;
+          }).join('')}
+        </div></section>`;
+      }).join('')}
+    </div>`;
   $$('[data-mat]').forEach(input => input.addEventListener('input', e => { state.materials[e.target.dataset.mat] = Number(e.target.value||0); if(e.target.dataset.mat === 'crowcoins') $('#crowCoins').value = e.target.value; save(); renderAll(); }));
 }
 
