@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07131f" />
+  <title>BDO Captain's Companion v3.0</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="appShell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brandIcon">⚓</div>
+        <div>
+          <h1>Captain's<br><span>Companion</span></h1>
+          <p>Caravel → Carrack Advance</p>
+        </div>
+      </div>
+      <div class="shipCard mini">
+        <span class="eyebrow">Current ship</span>
+        <strong>Epheria Caravel</strong>
+        <small>Goal: Carrack Advance + blue gear</small>
+      </div>
+      <nav id="desktopNav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <span class="version">v3.0 Carrack Only</span>
+          <h2 id="pageTitle">Dashboard</h2>
+          <p id="pageSubtitle">Your clean progression hub for Carrack Advance.</p>
+        </div>
+        <div class="topActions">
+          <label class="quickInput">Barters
+            <input id="barterCount" type="number" min="0" placeholder="200" />
+          </label>
+          <label class="quickInput">Crow Coins
+            <input id="crowCoins" type="number" min="0" placeholder="1400" />
+          </label>
+          <button id="resetDaily" class="ghostBtn">Reset Daily</button>
+        </div>
+      </header>
+
+      <section id="dashboard" class="page active"></section>
+      <section id="quests" class="page"></section>
+      <section id="materials" class="page"></section>
+      <section id="shipGear" class="page"></section>
+      <section id="monsters" class="page"></section>
+      <section id="sailors" class="page"></section>
+      <section id="planner" class="page"></section>
+      <section id="settings" class="page"></section>
+    </main>
+  </div>
+
+  <nav id="mobileNav" class="mobileNav"></nav>
+  <dialog id="detailModal" class="modal"><div id="modalContent"></div></dialog>
+
+  <script src="data/appData.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
